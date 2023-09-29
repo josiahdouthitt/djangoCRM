@@ -28,10 +28,18 @@
           </li>
 
           {% endif %}
-
-          
-
         </ul>
+
+        {% if user.is_authenticated %}
+        <form class="d-flex" role="search" method="POST" action="{% url 'search_records' %}">
+          {% csrf_token %}
+          <input class="form-control me-2" name="searched" type="search" placeholder="" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        {% endif %}
+
       </div>
     </div>
   </nav>
+
+  
