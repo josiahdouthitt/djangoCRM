@@ -39,23 +39,25 @@ def logout_user(request):
 
 
 def register_user(request):
-
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Auth
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            messages.success(request, "You have successfully registered!")
-            return redirect('home')
-    else:
-        form = SignUpForm()
-        return render(request, 'mainsite/register.html', {'form':form})
-    
-    return render(request, 'mainsite/register.html', {'form':form})
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            if request.method == 'POST':
+                form = SignUpForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    # Auth
+                    username = form.cleaned_data['username']
+                    password = form.cleaned_data['password1']
+                    user = authenticate(username=username, password=password)
+                    login(request, user)
+                    messages.success(request, "You have successfully registered!")
+                    return redirect('home')
+            else:
+                form = SignUpForm()
+                return render(request, 'mainsite/register.html', {'form':form})
+        
+    messages.success(request, "You do not have the proper access to register a new user.")
+    return redirect('home')
 
 
 def customer_record(request, pk):
