@@ -1,11 +1,12 @@
 {% extends "mainsite/base.html" %}
 
 {% block content %}
+<center>
+{% if searched %}
+<h1>Search Results For "{{searched}}"</h1>
+<br/>
 
-
-
-{% if user.is_authenticated %}
-  <table class="table table-striped table-hover table-bordered">
+<table class="table table-striped table-hover table-bordered">
     <thead class="table-dark">
       <tr>
         <th scope="col">Name</th>
@@ -45,31 +46,9 @@
     </tbody>
   </table>
 
-  
-
 {% else %}
-
-<div class="col-md-6 offset-md-3">
-<h1>Login</h1>
-<br/>
-<form method="POST" action={% url 'home' %}>
-    {% csrf_token %}
-    
-        <div class="mb-3">
-          <input type="text" class="form-control" name="username", placeholder="Username" required>
-        </div>
-        
-        <div class="mb-3">
-          <input type="password" class="form-control" name="password", placeholder="Password" required>
-        </div>
-
-        <br/>
-        <button type="submit" class="btn btn-secondary">Login</button>
-      
-</form>
-
-<div/>
+<h1>No Results...</h1>
 
 {% endif %}
-
+</center>
 {% endblock %}
